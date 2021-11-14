@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-bb-is-ubuntu-version?() {
-  local UBUNTU_VERSION=$1
-  if [ "$(source /etc/os-release; echo ${VERSION_ID})" == "${UBUNTU_VERSION}" ] ; then
-    return 0
-  else
-    return 1
-  fi
-}
+if systemctl is-active -q firewalld; then
+  systemctl stop firewalld
+fi
+
+if systemctl is-enabled -q firewalld; then
+  systemctl disable firewalld
+  systemctl mask firewalld
+fi

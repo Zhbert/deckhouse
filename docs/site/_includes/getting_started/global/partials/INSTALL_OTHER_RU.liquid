@@ -85,6 +85,24 @@ dhctl bootstrap-phase abort \
 {%- endif %}
 {%- endif %}
 
-По окончании установки произойдет возврат к командной строке.
+По окончании установки произойдёт возврат к командной строке.
+
+{% if page.platform_type == "existing" %}
+{% offtopic title="Если вы включили модуль ingress-nginx в config.yml" %}
+Настройте Ingress-контроллер, для чего:
+<ul><li><p>Создайте на <strong>master-узле</strong> файл <code>ingress-nginx-controller.yml</code> следующего содержания:</p>
+{% snippetcut name="ingress-nginx-controller.yml" selector="ingress-nginx-controller-yml" %}
+{% include_file "_includes/getting_started/{{ page.platform_code }}/partials/ingress-nginx-controller.yml.inc" syntax="yaml" %}
+{% endsnippetcut %}</li>
+<li><p>Примените его, выполнив на <strong>master-узле</strong> следующую команду:</p>
+{% snippetcut %}
+```shell
+kubectl create -f ingress-nginx-controller.yml
+```
+{% endsnippetcut %}
+</li>
+</ul>
+{% endofftopic %}
+{% endif %}
 
 Почти все готово для полноценной работы Deckhouse Platform!

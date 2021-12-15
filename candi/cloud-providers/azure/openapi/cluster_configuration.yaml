@@ -97,7 +97,9 @@ apiVersions:
             properties: &instanceClassProperties
               machineSize:
                 description: |
-                  The type of instances to provision. Getting a list of available types for the specific region using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli):
+                  The type of instances to provision.
+
+                  Getting a list of available types for the specific region using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli):
 
                   ```shell
                   az vm list-sizes --location westeurope -o table

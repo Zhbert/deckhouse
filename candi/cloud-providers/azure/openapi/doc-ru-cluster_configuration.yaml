@@ -57,7 +57,9 @@ apiVersions:
             properties: &instanceClassProperties_ru
               machineSize:
                 description: |
-                  Тип заказываемых инстансов. Получение всех доступных типов в регионе с помощью [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli):
+                  Тип заказываемых инстансов.
+
+                  Получение всех доступных типов в регионе с помощью [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli):
 
                   ```shell
                   az vm list-sizes --location westeurope -o table

@@ -51,7 +51,7 @@ fi
 {{- range $key, $value := index .k8s .kubernetesVersion "bashible" "centos" }}
   {{- $centosVersion := toString $key }}
   {{- if or $value.containerd.desiredVersion $value.containerd.allowedPattern }}
-if bb-is-centos-version? {{ $ubuntuVersion }} ; then
+if bb-is-centos-version? {{ $centosVersion }} ; then
   desired_version={{ $value.containerd.desiredVersion | quote }}
   allowed_versions_pattern={{ $value.containerd.allowedPattern | quote }}
 fi

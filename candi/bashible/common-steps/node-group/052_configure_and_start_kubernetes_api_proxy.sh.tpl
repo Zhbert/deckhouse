@@ -12,20 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if eq .bundle "ubuntu-lts" }}
-if bb-is-ubuntu-version? 16.04 ; then
-  bb-rp-install "nginx:{{ .images.registrypackages.nginxUbuntu1202Xenial }}"
-fi
-if bb-is-ubuntu-version? 18.04 ; then
-  bb-rp-install "nginx:{{ .images.registrypackages.nginxUbuntu1202Bionic }}"
-fi
-if bb-is-ubuntu-version? 20.04 ; then
-  bb-rp-install "nginx:{{ .images.registrypackages.nginxUbuntu1202Focal }}"
-fi
-{{- else if eq .bundle "centos" }}
-bb-rp-install "nginx:{{ .images.registrypackages.nginxCentos71202 }}"
-{{- end }}
-
 # Disable default nginx vhost
 {{- if ne .runType "ImageBuilding" }}
 if systemctl is-active --quiet nginx ; then
@@ -33,7 +19,6 @@ if systemctl is-active --quiet nginx ; then
 fi
 {{- end }}
 systemctl disable nginx
-
 
 # Disable default nginx vhost
 if systemctl is-active --quiet nginx ; then

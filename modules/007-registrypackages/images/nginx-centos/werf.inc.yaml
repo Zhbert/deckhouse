@@ -1,7 +1,7 @@
 {{- $centos_versions := list "7" "8" }}
 {{- $version := "1.20.2" }}
 {{- $image_version := $version | replace "." "-" }}
-{{- $centos_version := range $centos_versions }}
+{{- range $centos_version := $centos_versions }}
 ---
 image: {{ $.ModuleName }}/{{ $.ImageName }}{{ $centos_version }}-{{ $image_version }}
 from: spotify/scratch

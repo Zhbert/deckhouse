@@ -43,7 +43,7 @@ shell:
   - curl -sL https://download.docker.com/linux/centos/7/x86_64/stable/Packages/{{ $version }}.rpm --output /containerd.io.x86_64.rpm
   - curl -sL {{ index $selinux_version "7" }} --output /container-selinux.x86_64.rpm
   {{- else if contains "el8" $image_version }}
-  - curl -sL https://download.docker.com/linux/centos/8/x86_64/stable/Pacackages/{{ $version }}.rpm --output /containerd.io.x86_64.rpm
+  - curl -sL https://download.docker.com/linux/centos/8/x86_64/stable/Packages/{{ $version }}.rpm --output /containerd.io.x86_64.rpm
   - curl -sL {{ index $selinux_version "8" }} --output /container-selinux.x86_64.rpm
   {{- end }}
 {{- end }}

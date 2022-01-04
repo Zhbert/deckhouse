@@ -80,7 +80,13 @@ if [[ "$should_install_containerd" == true ]]; then
 
   bb-deckhouse-get-disruptive-update-approval
 
-  containerd_tag="{{ index .images.registrypackages (printf "containerdCentos%s" ($desired_version | replace "containerd.io-" "" | replace "." "_" | replace "-" "_" | camelcase )) }}"
+{{- range $key, $value := index .k8s .kubernetesVersion "bashible" "centos" }}
+  {{- $centosVersion := toString $key }}
+  if bb-is-centos-version? {{ $centosVersion }} ; then
+    containerd_tag="{{- index $.images.registrypackages (printf "containerdCentos%s" ($value.containerd.desiredVersion | replace "containerd.io-" "" | replace "." "_" | replace "-" "_" | camelcase )) }}"
+  fi
+{{- end }}
+
   crictl_tag="{{ index .images.registrypackages (printf "crictl%s" (.kubernetesVersion | replace "." "")) | toString }}"
   containerd_fe_tag="{{ index .images.registrypackages "containerdFe146" | toString }}"
 

@@ -188,7 +188,6 @@ k8s:
       # kubeControllerManager: sha256 digest isn't needed because this component is compiled from source
       kubeScheduler: sha256:415afb38d7d610177753f1bd62fd6ef1bf3eec85cc17e100735775d7b7de1ccf
       # kubeProxy: sha256 digest isn't needed because this component is compiled from source for that version of kubernetes
-      kubeProxy: sha256:ed16fc3467873e99ad90389160330b57eed80ad71faec5bba154059ced8dd6f8
   '1.22':
     status: available
     patch: 4

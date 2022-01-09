@@ -30,6 +30,15 @@
 # Later, we plan render bootstrap with bashible-apiserver and use registry.host and registry.auth variables.
 # https://github.com/deckhouse/deckhouse/issues/143
 */}}
+{{- /*
+# By default, python is not installed on CentOS 8.
+# So we need to install it before first use
+*/}}
+if [ "$(source /etc/os-release; echo ${VERSION_ID})" == "8" ] ; then
+  yum install python3 -y
+  alternatives --set python /usr/bin/python3
+fi
+
 REGISTRY_ADDRESS="{{ .registry.address }}"
 SCHEME="{{ .registry.scheme }}"
 REGISTRY_PATH="{{ .registry.path }}"

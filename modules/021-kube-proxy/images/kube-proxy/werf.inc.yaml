@@ -4,7 +4,8 @@
   {{- $v := semver $version }}
 ---
 image: {{ $.ModuleName }}/{{ $.ImageName }}-{{ $version | replace "." "-" }}
-from: alpine:3.15
+from: {{ env "BASE_ALPINE_3_15" }}
+}}
 git:
   - add: /modules/021-{{ $.ModuleName }}/images/{{ $.ImageName }}/iptables-wrapper-installer.sh
     to: /iptables-wrapper-installer.sh

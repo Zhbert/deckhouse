@@ -7,7 +7,7 @@ WORKDIR /app
 COPY deckhouse.patch /
 RUN apk update && apk add git patch && git clone -b fixes https://github.com/vitaliy-sn/ovpn-admin.git . && git checkout 05fcf99bdfe10f83b400fbdf41b17420c6651f07 && patch -p1 < /deckhouse.patch
 
-FROM node:14.2-alpine3.11 AS frontend
+FROM $BASE_NODE_16_ALPINE AS frontend
 WORKDIR /app
 COPY --from=src /app /app
 RUN  cd frontend && npm install && npm run build

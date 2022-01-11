@@ -18,7 +18,7 @@ if bb-is-centos-version? 7; then
   SYSTEM_PACKAGES="${SYSTEM_PACKAGES} policycoreutils-python"
 fi
 if bb-is-centos-version? 8; then
-  SYSTEM_PACKAGES="${SYSTEM_PACKAGES} policycoreutils-python-utils bash-completion-extras"
+  SYSTEM_PACKAGES="${SYSTEM_PACKAGES} policycoreutils-python-utils"
 fi
 # yum-plugin-versionlock is needed for bb-yum-install
 bb-yum-install yum-plugin-versionlock

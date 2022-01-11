@@ -24,6 +24,7 @@ import:
   before: setup
 ---
 artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}
+cacheVersion: 2
 from: {{ env "BASE_ALPINE" }}
 git:
   - add: /modules/007-{{ $.ModuleName }}/images/{{ $.ImageName }}/scripts

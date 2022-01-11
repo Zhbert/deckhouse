@@ -54,14 +54,21 @@ if bb-yum-package? containerd.io && ! bb-yum-package? docker-ce ; then
   bb-flag-set reboot
 fi
 
+{{- range $key, $value := index .k8s .kubernetesVersion "bashible" "centos" }}
+  {{- $centosVersion := toString $key }}
+  {{- if or $value.docker.containerd.desiredVersion $value.docker.containerd.allowedPattern }}
+if bb-is-centos-version? {{ $centosVersion }} ; then
+  desired_version_containerd={{ $value.docker.containerd.desiredVersion | quote }}
+  allowed_versions_containerd_pattern={{ $value.docker.containerd.allowedPattern | quote }}
+fi
+  {{- end }}
+{{- end }}
+
+
 {{- $desired_version_docker := index .k8s .kubernetesVersion "bashible" "centos" "7" "docker" "desiredVersion" }}
 {{- $allowed_versions_docker_pattern := index .k8s .kubernetesVersion "bashible" "centos" "7" "docker" "allowedPattern" }}
-{{- $desired_version_containerd := index .k8s .kubernetesVersion "bashible" "centos" "7" "docker" "containerd" "desiredVersion" }}
-{{- $allowed_versions_containerd_pattern := index .k8s .kubernetesVersion "bashible" "centos" "7" "docker" "containerd" "allowedPattern" }}
 desired_version_docker={{ $desired_version_docker | quote }}
 allowed_versions_docker_pattern={{ $allowed_versions_docker_pattern | quote }}
-desired_version_containerd={{ $desired_version_containerd | quote }}
-allowed_versions_containerd_pattern={{ $allowed_versions_containerd_pattern | quote }}
 
 if [[ -z $desired_version_docker || -z $desired_version_containerd ]]; then
   bb-log-error "Desired version must be set"

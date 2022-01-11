@@ -2,7 +2,7 @@
 {{- range $key, $value := .CandiVersionMap.k8s }}
   {{- range $key, $versions := $value.bashible.centos }}
     {{- if $versions.docker.desiredVersion }}
-      {{- $docker_versions = $versions.docker.desiredVersion | toString | append $docker_versions }}
+      {{- $docker_versions = printf "%s-%s" $versions.docker.desiredVersion $key | toString | append $docker_versions }}
     {{- end}}
   {{- end }}
 {{- end }}
@@ -35,8 +35,58 @@ shell:
   beforeInstall:
   - apk add --no-cache curl
   setup:
-  - RPM_PACKAGE="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/{{ $version }}.rpm"
-  - RPM_PACKAGE_CLI="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/{{ $version | replace "docker-ce" "docker-ce-cli" }}.rpm"
+  - DISTRO="$(awk -F "-" '{print $NF}' <<< "{{ $version }}")"
+  - VERSION="$(sed "s/-${DISTRO}//" <<< "{{ $version }}")"
+  - CLI_VERSION="$(sed "s/docker-ce/docker-ce-cli/" <<< "${VERSION}")"
+  - RPM_PACKAGE="https://download.docker.com/linux/centos/${DISTRO}/x86_64/stable/Packages/${VERSION}.rpm"
+  - RPM_PACKAGE_CLI="https://download.docker.com/linux/centos/${DISTRO}/x86_64/stable/Packages/${CLI_VERSION}.rpm"
   - curl -sL ${RPM_PACKAGE} --output /docker-ce.x86_64.rpm
   - curl -sL ${RPM_PACKAGE_CLI} --output /docker-ce-cli.x86_64.rpm
 {{- end }}
+
+
+
+  {{- $containerd_versions := list }}
+  {{- $debian_versions := dict "9" "stretch" "10" "buster" "11" "bullseye" }}
+  {{- range $key, $value := .CandiVersionMap.k8s }}
+  {{- range $key, $versions := $value.bashible.debian }}
+  {{- if $versions.containerd.desiredVersion }}
+  {{- $containerd_versions = printf "%s-%s" $versions.containerd.desiredVersion (index $debian_versions $key) | toString | append $containerd_versions }}
+  {{- end}}
+  {{- if $versions.docker.containerd.desiredVersion }}
+  {{- $containerd_versions = printf "%s-%s" $versions.docker.containerd.desiredVersion (index $debian_versions $key) | toString | append $containerd_versions }}
+  {{- end}}
+  {{- end }}
+  {{- end }}
+  {{- range $value := $containerd_versions | uniq }}
+  {{- $version := $value | toString }}
+  {{- $image_version := $version | replace "containerd.io=" "" | replace "." "-" | replace "~" "-" }}
+---
+image: {{ $.ModuleName }}/{{ $.ImageName }}-{{ $image_version }}
+from: spotify/scratch
+import:
+- artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}
+  add: /
+  to: /
+  includePaths:
+  - containerd.io_amd64.deb
+  - install
+  - uninstall
+  before: setup
+---
+artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}
+from: {{ env "BASE_ALPINE" }}
+git:
+- add: /modules/007-{{ $.ModuleName }}/images/{{ $.ImageName }}/scripts
+  to: /
+  stageDependencies:
+    setup:
+    - '**/*'
+shell:
+  beforeInstall:
+  - apk add --no-cache curl
+  setup:
+  - DISTRO="$(awk -F "-" '{print $NF}' <<< "{{ $version | replace "=" "_" }}")"
+  - VERSION="$(sed "s/-${DISTRO}//" <<< "{{ $version | replace "=" "_" }}")"
+  - curl -sL "https://download.docker.com/linux/debian/dists/${DISTRO}/pool/stable/amd64/${VERSION}_amd64.deb" --output /containerd.io_amd64.deb
+  {{- end }}

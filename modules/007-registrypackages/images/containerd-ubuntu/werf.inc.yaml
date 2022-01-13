@@ -15,7 +15,7 @@
     {{- $image_version := $version | replace "containerd.io=" "" | replace "." "-" | replace "~" "-" }}
 ---
 image: {{ $.ModuleName }}/{{ $.ImageName }}-{{ $image_version }}-{{ $distro }}
-from: spotify/scratch
+from: {{ env "BASE_SCRATCH" }}
 import:
 - artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}-{{ $distro }}
   add: /

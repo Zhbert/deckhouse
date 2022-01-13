@@ -3,7 +3,7 @@
   {{- $image_version := index $version $centos_version | replace "." "-" }}
 ---
 image: {{ $.ModuleName }}/{{ $.ImageName }}{{ $centos_version }}-{{ $image_version }}
-from: spotify/scratch
+from: {{ env "BASE_SCRATCH" }}
 import:
 - artifact: {{ $.ModuleName }}/{{ $.ImageName }}{{ $centos_version }}-artifact-{{ $image_version }}
   add: /

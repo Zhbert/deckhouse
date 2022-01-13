@@ -14,7 +14,8 @@
 
 bb-is-ubuntu-version?() {
   local UBUNTU_VERSION=$1
-  if [ "$(source /etc/os-release; echo ${VERSION_ID})" == "${UBUNTU_VERSION}" ] ; then
+  source /etc/os-release
+  if [ "${VERSION_ID}" == "${UBUNTU_VERSION}" ] ; then
     return 0
   else
     return 1
@@ -23,7 +24,8 @@ bb-is-ubuntu-version?() {
 
 bb-is-centos-version?() {
   local CENTOS_VERSION=$1
-  if [ "$(source /etc/os-release; echo ${VERSION_ID})" == "${CENTOS_VERSION}" ] ; then
+  source /etc/os-release
+  if [ "${VERSION_ID}" == "${CENTOS_VERSION}" ] ; then
     return 0
   else
     return 1

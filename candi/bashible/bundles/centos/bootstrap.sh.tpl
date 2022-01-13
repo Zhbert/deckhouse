@@ -34,7 +34,8 @@
 # By default, python is not installed on CentOS 8.
 # So we need to install it before first use
 */}}
-if [ "$(source /etc/os-release; echo ${VERSION_ID})" == "8" ] ; then
+. /etc/os-release
+if [ "${VERSION_ID}" == "8" ] ; then
   yum install python3 -y
   alternatives --set python /usr/bin/python3
 fi

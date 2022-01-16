@@ -125,16 +125,6 @@ internal:
       - zonea
       - zoneb
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const nodeManagerAzure = `
@@ -182,16 +172,6 @@ internal:
       - zonea
       - zoneb
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const nodeManagerGCP = `
@@ -239,16 +219,6 @@ internal:
       - zonea
       - zoneb
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const faultyNodeManagerOpenstack = `
@@ -372,16 +342,6 @@ internal:
       zones:
       - zonea
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const nodeManagerVsphere = `
@@ -433,16 +393,6 @@ internal:
       - zonea
       - zoneb
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const nodeManagerYandex = `
@@ -501,16 +451,6 @@ internal:
       - zonea
       - zoneb
   machineControllerManagerEnabled: true
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 const nodeManagerStatic = `
@@ -527,16 +467,6 @@ internal:
     kubernetesVersion: "1.19"
     cri:
       type: "Containerd"
-  nodeUsers:
-  - name: test
-    spec:
-      extraGroups:
-      - docker
-      - fax
-      isSudoer: true
-      passwordHash: $salt$pass
-      sshPublicKey: ssh-rsa pubkey
-      uid: 1001
 `
 
 var _ = Describe("Module :: node-manager :: helm template ::", func() {

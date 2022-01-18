@@ -23,13 +23,6 @@ gitWorktree:
       - jo
       update_cache: yes
 
-  - name: "Install rgxg"
-    apk:
-      name:
-        - rgxg
-      repository: http://nl.alpinelinux.org/alpine/edge/testing/
-      update_cache: yes
-
   - name: "install cfssl"
     get_url:
       url: https://github.com/cloudflare/cfssl/releases/download/v1.6.0/cfssl_1.6.0_linux_amd64
@@ -135,7 +128,6 @@ ansible:
         - ca-certificates
         - curl
         - pwgen
-        - apache2-utils
         - bc
         - grep
         - tar
@@ -144,7 +136,6 @@ ansible:
         - util-linux
         - sed
         - gawk
-        - netcat-openbsd
         - busybox-extras
         - vim
         - tini
@@ -172,7 +163,6 @@ ansible:
         - util-linux
         - sed
         - gawk
-        - netcat-openbsd
         - busybox-extras
         - vim
         - tini
@@ -381,6 +371,8 @@ git:
     - go.sum
     - tools
   excludePaths:
+    - global-hooks/**/*_test.go
+    - modules/**/*_test.go
     - deckhouse-controller/cmd/deckhouse-controller/register-go-hooks.go
     - dhctl/development
     - deckhouse-controller/development

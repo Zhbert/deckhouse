@@ -5,7 +5,7 @@ ARG BASE_GOLANG_17_ALPINE
 FROM $BASE_ALPINE as src
 WORKDIR /app
 COPY deckhouse.patch /
-RUN apk update && apk add git patch && git clone -b fixes https://github.com/vitaliy-sn/ovpn-admin.git . && git checkout 9e1d1531a146f83d14c845264dd377496c24273c && patch -p1 < /deckhouse.patch
+RUN apk update && apk add git patch openvpn && git clone -b fixes https://github.com/vitaliy-sn/ovpn-admin.git . && git checkout 824afcbf7c61bcf45f345eb31d2f912060bbf98d && patch -p1 < /deckhouse.patch
 
 FROM $BASE_NODE_16_ALPINE AS frontend
 WORKDIR /app

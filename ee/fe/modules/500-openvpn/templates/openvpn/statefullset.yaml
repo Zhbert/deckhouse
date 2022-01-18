@@ -69,8 +69,8 @@ spec:
       {{- include "helm_lib_priority_class" (tuple . "cluster-low") | nindent 6 }}
       {{- include "helm_lib_module_pod_security_context_run_as_user_root" . | nindent 6 }}
       containers:
-      - name: {{ .Chart.Name }}
-        {{- include "helm_lib_module_container_security_context_capabilities_drop_all_and_add" (list . (list "NET_ADMIN" "NET_RAW" "MKNOD" "SETGID" "SETUID")) | nindent 8 }}
+      - name: openvpn
+{{- include "helm_lib_module_container_security_context_capabilities_drop_all_and_add" (list . (list "NET_ADMIN" "NET_RAW" "MKNOD" "SETGID" "SETUID")) | nindent 8 }}
         image: {{ $.Values.global.modulesImages.registry }}:{{ $.Values.global.modulesImages.tags.openvpn.openvpn }}
         command: [ '/etc/openvpn/setup/configure.sh' ]
         ports:
@@ -90,8 +90,8 @@ spec:
             mountPath: /dev/net
         resources:
           requests:
-            {{- include "helm_lib_module_ephemeral_storage_logs_with_extra" 10 | nindent 12 }}
-      - name: {{ .Chart.Name }}-admin
+{{- include "helm_lib_module_ephemeral_storage_logs_with_extra" 10 | indent 12 }}
+      - name: openvpn-admin
 {{- include "helm_lib_module_container_security_context_read_only_root_filesystem_capabilities_drop_all" . | nindent 8 }}
         image: {{ $.Values.global.modulesImages.registry }}:{{ $.Values.global.modulesImages.tags.openvpn.ovpnAdmin }}
         command:
@@ -115,6 +115,9 @@ spec:
           - mountPath: /mnt/easyrsa
             name: certs
             readOnly: false
+          - name: openvpn
+            mountPath: /app/templates/client.conf.tpl
+            subPath: client.conf.tpl
         resources:
           requests:
             {{- include "helm_lib_module_ephemeral_storage_logs_with_extra" 10 | nindent 12 }}

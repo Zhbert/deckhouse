@@ -100,6 +100,7 @@ spec:
         - name: ExtraGroups
           jsonPath: .spec.extraGroups
           type: string
+          description: extra groups for user
         - name: NodeGroups
           jsonPath: .spec.nodeGroups
           type: string

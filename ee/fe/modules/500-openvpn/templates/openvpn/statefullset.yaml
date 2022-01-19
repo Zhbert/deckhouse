@@ -158,18 +158,5 @@ spec:
         emptyDir: {}
       - name: dev-net
         emptyDir: {}
-{{- $storageClass := .Values.openvpn.internal.effectiveStorageClass }}
-{{- if $storageClass }}
-  volumeClaimTemplates:
-  - metadata:
-      name: certs
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: {{ $storageClass }}
-      resources:
-        requests:
-          storage: 256Mi
-{{- else }}
       - name: certs
         emptyDir: {}
-{{- end }}

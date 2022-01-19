@@ -4,7 +4,7 @@ ARG BASE_GOLANG_17_ALPINE
 
 FROM $BASE_ALPINE as src
 WORKDIR /app
-RUN apk update && apk add git patch openvpn && git clone -b fixes https://github.com/vitaliy-sn/ovpn-admin.git . && git checkout a4c5bac138b03042aee8340e5ac6aa30f37a23db
+RUN apk update && apk add git patch openvpn && git clone -b fixes https://github.com/vitaliy-sn/ovpn-admin.git . && git checkout 2b058b61b15f19fd025d322e1c82712c62788736
 
 FROM $BASE_NODE_16_ALPINE AS frontend
 WORKDIR /app

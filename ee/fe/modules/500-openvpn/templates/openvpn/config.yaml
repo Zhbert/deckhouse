@@ -87,6 +87,7 @@ data:
     wait_file "$easyrsa_path/pki/issued/server.crt"
     wait_file "$easyrsa_path/pki/ta.key"
     wait_file "$easyrsa_path/pki/dh.pem"
+    wait_file "$easyrsa_path/pki/crl.pem"
 
     openvpn --config /etc/openvpn/openvpn.conf
 

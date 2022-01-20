@@ -23,3 +23,4 @@ COPY --from=backend /app/ovpn-admin /app/
 COPY --from=frontend /app/frontend/static /app/frontend/static
 COPY client.conf.tpl /app/templates/
 COPY rootfs /
+ENV LANG=C.UTF-8

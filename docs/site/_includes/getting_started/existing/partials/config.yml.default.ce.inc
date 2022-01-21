@@ -23,27 +23,14 @@ deckhouse:
         # [<ru>] шаблон, который будет использоваться для составления адресов системных приложений в кластере
         # [<ru>] например, Grafana для %s.example.com будет доступна на домене grafana.example.com
         publicDomainTemplate: "%s.example.com"
-        # [<en>] if there are no master nodes in the cluster (cloud managed control-plane) or they have special taints
-        # [<en>] specify them to allow Deckhouse components to start or delete the `placement` block
-        # [<ru>] если в кластере отсутствуют master-узлы (cloud managed control-plane) или у них особые taint
-        # [<ru>] укажите их, чтобы позволить запуститься компонентам Deckhouse или удалите блок `placement`
+        # [<ru>] при необходимости, укажите в массиве customTolerationKeys все taint'ы
+        # [<ru>] к которым Deckhouse должен иметь toleration
+        # [<ru>] далее приведен пример для случая, если нужно чтобы Deckhouse и его компоненты смогли запускаться
+        # [<ru>] на узлах, имеющих taint SystemLoad
         # [<en>] you might consider changing this
         # [<ru>] возможно, захотите изменить
-        placement:
-          customTolerationKeys:
-          - CriticalAddonsOnly
+         placement:
+           customTolerationKeys:
+           - SystemLoad
     certManagerEnabled: true
     deckhouseWebEnabled: true
-    operatorPrometheusCrdEnabled: true
-    priorityClassEnabled: true
-    prometheusCrdEnabled: true
-    verticalPodAutoscalerCrdEnabled: true
-    userAuthnCrdEnabled: true
-    helmEnabled: true
-    # [<en>] Enable if you don't have an Ingress controller installed in your cluster yet
-    # [<ru>] Включите, если у вас в кластере еще не установлен Ingress-контроллер
-    # [<en>] you might consider changing this
-    # [<ru>] возможно, захотите изменить
-    nginxIngressEnabled: false
-    # [<ru>] включите интересующие вас модули (вы также можете сделать это в любое время после установки)
-    # [<en>] enable the modules you are interested in (you can also do this at any time after installation)

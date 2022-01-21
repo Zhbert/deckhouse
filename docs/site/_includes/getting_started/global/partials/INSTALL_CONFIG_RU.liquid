@@ -22,3 +22,31 @@
 {% snippetcut name="config.yml" selector="config-yml" %}
 {% include_file "_includes/getting_started/{{ page.platform_code }}/partials/config.yml.{{ include.layout }}.{{ revision }}.inc" syntax="yaml" %}
 {% endsnippetcut %}
+
+{%- if page.platform_type == 'existing' %}
+Управлять тем, на каких узлах будет запускаться ядро deckhouse, можно с помощью указания `nodeSelector`/`tolerations` в параметре `configOverrides.deckhouse` конфигурации установки. Также, вы можете перечислить необходимые taint'ы узлов кластера в массиве `configOverrides.global.modules.placement.customTolerationKeys`, чтобы Deckhouse автоматически указывал соответствующие toleration своим компонентам.
+
+{% offtopic title="Пример управления выкатом Deckhouse..." %}
+> Пример указания `nodeSelector`/`tolerations` для модуля `deckhouse` и списка tolerations в массиве `customTolerationKeys` для работы остальных компонентов deckhouse (не копируйте этот пример без изменения в вашу конфигурацию, т.к. у вас будут другие значения):
+> ```yaml
+> deckhouse:
+>   configOverrides:
+>     # ...
+>     deckhouse:
+>       nodeSelector:
+>         node-role.deckhouse.io/deckhouse: ""
+>       tolerations:
+>         - key: dedicated.deckhouse.io
+>           operator: Exists
+>       bundle: Minimal
+>     # ...
+>     global:
+>       modules:
+>         # ...
+>         placement:
+>           customTolerationKeys:
+>           - SystemLoad
+>           - app.kubernetes.io/instance
+> ```
+{% endofftopic %}
+{% endif %}

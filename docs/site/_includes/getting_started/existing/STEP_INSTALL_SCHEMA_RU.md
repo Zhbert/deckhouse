@@ -1,2 +1,2 @@
 <!-- TODO insert presentation -->
-{% include getting_started/global/partials/STEP_INSTALL_SCHEMA_RU.md  %}
+{% include getting_started/global/partials/STEP_INSTALL_SCHEMA_RU.liquid  %}

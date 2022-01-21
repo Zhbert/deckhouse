@@ -484,7 +484,7 @@ func (c *BashibleContext) subscribeOnNodeUserCRD(ctx context.Context, ngConfigFa
 		return
 	}
 
-	go c.runBufferedEmitter()
+	go c.emitter.runBufferedEmitter(c.nodeUsersConfigurationChanged)
 	go c.runNodeUserCRDQueue(ctx)
 
 	// Launch the informer
@@ -524,26 +524,6 @@ func (c *BashibleContext) subscribeOnNodeUserCRD(ctx context.Context, ngConfigFa
 	if !cache.WaitForCacheSync(ctx.Done(), informer.HasSynced) {
 		klog.Fatalf("unable to sync caches: %v", ctx.Err())
 	}
-}
-
-func (c *BashibleContext) runBufferedEmitter() chan struct{} {
-	for {
-		// we need sleep to avoid emitting configuration change on batch updates
-		// for example on a start - we add all NodeGroupConfigurations, but need to rerender context and checksums only once
-		time.Sleep(500 * time.Millisecond)
-		c.emitter.Lock()
-		if c.emitter.count > 0 {
-			c.nodeUsersConfigurationChanged <- struct{}{}
-			c.emitter.count = 0
-		}
-		c.emitter.Unlock()
-	}
-}
-
-func (c *BashibleContext) emitChanges() {
-	c.emitter.Lock()
-	c.emitter.count++
-	c.emitter.Unlock()
 }
 
 func (c *BashibleContext) AddNodeUserConfiguration(nu *NodeUser) {
@@ -635,7 +615,7 @@ func (c *BashibleContext) runNodeUserCRDQueue(ctx context.Context) {
 				c.RemoveNodeUserConfiguration(&nu)
 			}
 
-			c.emitChanges()
+			c.emitter.emitChanges()
 		}
 	}
 }

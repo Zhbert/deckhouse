@@ -187,7 +187,12 @@ func fromJSONArray(str string) []interface{} {
 	return a
 }
 
-func slicesIsEqual(s1, s2 []string) bool {
+func slicesIsEqual(s1orig, s2orig []string) bool {
+	s1 := make([]string, len(s1orig))
+	s2 := make([]string, len(s2orig))
+	copy(s1, s1orig)
+	copy(s2, s2orig)
+
 	if len(s1) != len(s2) {
 		return false
 	}

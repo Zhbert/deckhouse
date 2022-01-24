@@ -74,7 +74,7 @@ spec:
           {{- include "helm_lib_module_container_security_context_not_allow_privilege_escalation" . | nindent 10 }}
           command:
             - /deckhouse/deckhouse
-          image: {{ .Values.deckhouse.internal.currentReleaseImageName }}
+          image: "{{ .Values.deckhouse.internal.currentReleaseImageName }}"
           env:
 {{- if not .Values.global.clusterIsBootstrapped }}
 # KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT are needed on the bootstrap phase to make Deckhouse work without kube-proxy

@@ -53,11 +53,11 @@ func (ngc NodeGroupConfigurationSpec) IsEqual(newSpec NodeGroupConfigurationSpec
 		return false
 	}
 
-	if slicesIsEqual(ngc.NodeGroups[:], newSpec.NodeGroups[:]) {
+	if slicesIsEqual(ngc.NodeGroups, newSpec.NodeGroups) {
 		return false
 	}
 
-	if slicesIsEqual(ngc.Bundles[:], newSpec.Bundles[:]) {
+	if slicesIsEqual(ngc.Bundles, newSpec.Bundles) {
 		return false
 	}
 

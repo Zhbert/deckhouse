@@ -59,15 +59,15 @@ func (nu NodeUserSpec) IsEqual(newSpec NodeUserSpec) bool {
 		return false
 	}
 
-	if !slicesIsEqual(nu.NodeGroups[:], newSpec.NodeGroups[:]) {
+	if !slicesIsEqual(nu.NodeGroups, newSpec.NodeGroups) {
 		return false
 	}
 
-	if !slicesIsEqual(nu.SshPublicKeys[:], newSpec.SshPublicKeys[:]) {
+	if !slicesIsEqual(nu.SshPublicKeys, newSpec.SshPublicKeys) {
 		return false
 	}
 
-	if !slicesIsEqual(nu.ExtraGroups[:], newSpec.ExtraGroups[:]) {
+	if !slicesIsEqual(nu.ExtraGroups, newSpec.ExtraGroups) {
 		return false
 	}
 

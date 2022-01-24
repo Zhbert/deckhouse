@@ -189,3 +189,14 @@ spec:
   additionalLogFields:
     my-cookie: "$cookie_MY_COOKIE"
 ```
+
+
+## How to enable HorizontalPodAutoscaling for IngressNginxController
+
+*Attention:* HPA mode is possible only for controllers with inlet: `LoadBalancer` or `LoadBalancerWithProxyProtocol`
+
+HPA is set with attributes `minReplicas` and `maxReplicas` in a [IngressNginxController CR](https://deckhouse.io/ru/documentation/v1/modules/402-ingress-nginx/cr.html#ingressnginxcontroller).
+
+`hpa-scaler` Deployment will be created with the HPA resource, which is observing custom metric `prometheus-metrics-adapter-d8-ingress-nginx-cpu-utilization-for-hpa`
+If CPU utilization > 50%, HPA-controller scales `hpa-scaler` Deployment with a new replica (with respect of `minReplicas` and `maxReplicas`)
+`hpa-scaler` Deployment has HardPodAntiAffinity and it will order a new Node (inside it's NodeGroup), where one more ingress-controller will be set.

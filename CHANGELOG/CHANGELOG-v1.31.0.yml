@@ -1,0 +1,35 @@
+general:
+  features:
+    - description: New bundle supporting Debian 9, 10, 11 and AstraLinux 2.12(Orel)
+      pull_request: https://github.com/deckhouse/deckhouse/pull/546
+keepalived:
+  fixes:
+    - description: Change VPA update mode to initial.
+      pull_request: https://github.com/deckhouse/deckhouse/pull/634
+monitoring:
+  fixes:
+    - description: Replace severity by severity_level
+      note: The severity annotation is deprecated, use severity_level [1-9] instead.
+      pull_request: https://github.com/deckhouse/deckhouse/pull/599
+monitoring-kubernetes-control-plane:
+  features:
+    - description: Sorted tables for api server metrics have been added.
+      pull_request: https://github.com/deckhouse/deckhouse/pull/626
+node-manager:
+  fixes:
+    - description: >-
+        When calculating maximum instanses for particular NodeGroup without zones defined — use
+        global zones count from CloudProvider configuration.
+      pull_request: https://github.com/deckhouse/deckhouse/pull/580
+prometheus:
+  features:
+    - description: Add supporting ServiceMonitors and PodMonitors from user-space
+      note: Prometheus will be restarted
+      pull_request: https://github.com/deckhouse/deckhouse/pull/604
+user-authn:
+  features:
+    - description: >-
+        Add an OpenAPI spec to validate Deckhouse configuration parameters for the user-authn
+        module.
+      pull_request: https://github.com/deckhouse/deckhouse/pull/593
+
